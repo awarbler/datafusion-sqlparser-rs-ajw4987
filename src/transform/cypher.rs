@@ -20,7 +20,6 @@ Anita Woodford ajw4987
 Module : cypher 
 Purpose: provide a function that will take sql text and parser it by using the datafusion sql pars and return a cypher placeholder as the output. 
 **/
-
 use sqlparser::dialect::GenericDialect; // GD understand ansi style sql 
 // uses the sql parser from the datafusion sql parser crate
 use sqlparser::parser::Parser;
