@@ -47,7 +47,7 @@ pub fn to_cypher(sql: &str)-> String {
         // if successful parse and store the result in parsed
         Ok(parsed) => parsed,
         Err(err) => {
-            return format!(" Parse Error: {}", err);
+            return format!(" parse Error: {}", err);
         }    
     };
     // if parsed into ast returning mock string 
@@ -63,7 +63,7 @@ mod test {
     fn test_run_multiple() {
         for _ in 0..100 {
             let out = to_cypher ("SELECT * FROM t;");
-            assert!(out.contains("Cypher for input"));
+            assert!(out.contains("cypher for input"));
         }
     }
 }
