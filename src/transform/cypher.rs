@@ -14,6 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 /**
 Anita Woodford ajw4987
 Module : cypher 
@@ -33,11 +34,16 @@ Part 3 of assignment
 1. accept sql text
 2. run datafusion parser on it
 4. return cypher output mocked is allowed 
+
+NOtes: 
+Sql is parsed to validate input 
+the returned cypher does not need to be real 
+function must remain safe for repeated calls 
 **/
 pub fn to_cypher(sql: &str)-> String {
-    let dialect = GenericDialect{}; // create an instance 
+    let dialect = GenericDialect{}; // create an ansi sql instance 
     // parse the incoming sql string into ast if fails return an error 
-    let ast = match Parser::parse_sql(&dialect, sql) {
+    let _ast = match Parser::parse_sql(&dialect, sql) {
         // if successful parse and store the result in parsed
         Ok(parsed) => parsed,
         Err(err) => {
@@ -46,4 +52,18 @@ pub fn to_cypher(sql: &str)-> String {
     };
     // if parsed into ast returning mock string 
     format!("cypher for input\n{}", sql)
+}
+
+// test 
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_run_multiple() {
+        for _ in 0..100 {
+            let out = to_cypher ("SELECT * FROM t;");
+            assert!(out.contains("Cypher for input"));
+        }
+    }
 }
