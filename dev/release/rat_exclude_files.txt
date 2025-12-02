@@ -3,6 +3,8 @@ target/*
 **.gitignore
 rat.txt
 dev/release/rat_exclude_files.txt
-tests/sqlparser_bench/img/flamegraph.svg
 **Cargo.lock
 filtered_rat.txt
+tests/sqlparser_bench/img/flamegraph.svg
+sqlparser_bench/img/flamegraph.svg
+sqlparser_bench/img/*
