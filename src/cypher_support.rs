@@ -19,7 +19,7 @@
 
 #[cfg(not(feature = "std"))]
 use alloc::{string::String, string::ToString, format};
-#![allow(dead_code)]
+#[allow(dead_code)]
 pub fn convert_cypher(_query: &str) -> String {
     "SELECT & FROM nodes".to_string()
 }
