@@ -28,12 +28,10 @@ use sqlparser::parser::Parser;
 Function: to_cypher 
 input: &str is raw sql text from go server rust transformer 
 output: string in cypher text currently mocked 
-
 Part 3 of assignment 
 1. accept sql text
 2. run datafusion parser on it
 4. return cypher output mocked is allowed 
-
 NOtes: 
 Sql is parsed to validate input 
 the returned cypher does not need to be real 
@@ -61,7 +59,7 @@ mod test {
     #[test]
     fn test_run_multiple() {
         for _ in 0..100 {
-            let out = to_cypher ("SELECT * FROM t;");
+            let out = to_cypher("SELECT * FROM t;");
             assert!(out.contains("cypher for input"));
         }
     }
