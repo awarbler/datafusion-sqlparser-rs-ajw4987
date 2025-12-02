@@ -15,6 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 // initialize cypher --> sql function stub ajw4987
+#![cfg_attr(not(feature = "std"), no_std)]
+
+#[cfg(not(feature = "std"))]
+use alloc::{string::String, string::ToString, format};
 #![allow(dead_code)]
 pub fn convert_cypher(_query: &str) -> String {
     "SELECT & FROM nodes".to_string()
