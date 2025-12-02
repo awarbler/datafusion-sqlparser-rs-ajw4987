@@ -16,41 +16,40 @@
 // under the License.
 
 // Anita Woodford ajw4987
-// Module : cypher 
-// Purpose: provide a function that will take sql text and parser it by using the datafusion sql pars and return a cypher placeholder as the output. 
+// Module : cypher
+// Purpose: provide a function that will take sql text and parser it by using the datafusion sql pars and return a cypher placeholder as the output.
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(not(feature = "std"))]
-use alloc::{string::String, string::ToString, format};
-use sqlparser::dialect::GenericDialect; // GD understand ansi style sql 
-// uses the sql parser from the datafusion sql parser crate
+use alloc::{format, string::String, string::ToString};
+use sqlparser::dialect::GenericDialect; // GD understand ansi style sql
+                                        // uses the sql parser from the datafusion sql parser crate
 use sqlparser::parser::Parser;
-/// Function: to_cypher 
-/// input: &str is raw sql text from go server rust transformer 
-/// output: string in cypher text currently mocked 
-/// Part 3 of assignment 
+/// Function: to_cypher
+/// input: &str is raw sql text from go server rust transformer
+/// output: string in cypher text currently mocked
+/// Part 3 of assignment
 /// 1. accept sql text
 /// 2. run datafusion parser on it
-/// 4. return cypher output mocked is allowed 
-/// # NOtes: 
-/// - Sql is parsed to validate input 
-/// - the returned cypher does not need to be real 
-/// - unction must remain safe for repeated calls 
-pub fn to_cypher(sql: &str)-> String {
-    let dialect = GenericDialect{}; // create an ansi sql instance 
-    // parse the incoming sql string into ast if fails return an error 
+/// 4. return cypher output mocked is allowed
+/// # NOtes:
+/// - Sql is parsed to validate input
+/// - the returned cypher does not need to be real
+/// - unction must remain safe for repeated calls
+pub fn to_cypher(sql: &str) -> String {
+    let dialect = GenericDialect {}; // create an ansi sql instance
+                                     // parse the incoming sql string into ast if fails return an error
     let _ast = match Parser::parse_sql(&dialect, sql) {
         // if successful parse and store the result in parsed
         Ok(parsed) => parsed,
         Err(err) => {
             return format!(" parse Error: {}", err);
-        }    
+        }
     };
-    // if parsed into ast returning mock string 
+    // if parsed into ast returning mock string
     format!("cypher for input\n{}", sql)
 }
-
-// test 
+// test
 #[cfg(test)]
 mod test {
     use super::*;

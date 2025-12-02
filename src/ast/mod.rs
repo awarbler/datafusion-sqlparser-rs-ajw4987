@@ -2818,7 +2818,7 @@ pub enum CreateTableOptions {
 
     TableProperties(Vec<SqlOption>),
 }
-// v=getting error adding 
+// v=getting error adding
 #[allow(clippy::derivable_impls)]
 impl Default for CreateTableOptions {
     fn default() -> Self {

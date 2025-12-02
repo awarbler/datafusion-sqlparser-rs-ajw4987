@@ -15,9 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-/**
-module transform
-purpose: serve as the parent module for transformation logic 
-
-**/
+// module transform
+// purpose: serve as the parent module for transformation logic
 pub mod cypher;
