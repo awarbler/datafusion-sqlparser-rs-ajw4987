@@ -174,7 +174,7 @@ pub mod parser;
 pub mod tokenizer;
 
 // letting rust know that mod.r and cypher.rs exist
-pub mod transform; // required for part 3
+// undoing wrong place pub mod transform; // required for part 3
 
 #[doc(hidden)]
 // This is required to make utilities accessible by both the crate-internal
