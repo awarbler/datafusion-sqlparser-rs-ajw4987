@@ -23,7 +23,7 @@
 #[cfg(not(feature = "std"))]
 use alloc::{format, string::String, string::ToString};
 use sqlparser::dialect::GenericDialect; // GD understand ansi style sql
-// uses the sql parser from the datafusion sql parser crate
+                                        // uses the sql parser from the datafusion sql parser crate
 use sqlparser::parser::Parser;
 /// Function: to_cypher
 /// input: &str is raw sql text from go server rust transformer
