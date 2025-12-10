@@ -1358,10 +1358,11 @@ impl<'a> Parser<'a> {
     /// added by ajw4987
     fn parse_cypher_match(&mut self) -> Result<CypherMatch, ParserError> {
         // MATCH
-        self.parse_keyword(Keyword::MATCH)?;
+        self.expect_keyword(Keyword::MATCH)?;
+        //let ok: bool = self.parse_keyword(...);
         // READ EVERYTHING UP TO RETURN
         let mut pattern = String::new();
-        while !self.consume_keyword(Keyword::RETURN) {
+        while !self.parse_keyword(Keyword::RETURN) {
             pattern.push_str(&self.next_token().to_string());
             pattern.push(' ');
         }
@@ -1372,7 +1373,7 @@ impl<'a> Parser<'a> {
         loop {
             match self.next_token().token {
                 Token::Word(w) => projections.push(w.value),
-                Toke::EOF | Token::SemiColon => break,
+                Token::EOF | Token::SemiColon => break,
                 _ => {}
             }
         }
