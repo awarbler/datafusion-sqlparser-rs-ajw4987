@@ -3178,6 +3178,9 @@ pub enum Statement {
     /// ```sql
     /// INSERT
     /// ```
+    /// Cypher MATCH ... RETURN ...
+    Cypher(CypherMatch)
+    
     Insert(Insert),
     /// ```sql
     /// INSTALL
@@ -11071,4 +11074,10 @@ mod tests {
         std::mem::swap(&mut a.span, &mut b.span);
         assert!(a < b);
     }
+
+    pub struct CypherMatch {
+        pub pattern: String, 
+        pub projections: Vec<String>,
+        }
+    
 }

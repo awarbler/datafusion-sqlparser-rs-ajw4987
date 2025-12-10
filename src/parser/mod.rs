@@ -568,6 +568,10 @@ impl<'a> Parser<'a> {
                     self.prev_token();
                     self.parse_query().map(Statement::Query)
                 }
+                Keyword:: MATCH => {
+                    self.prev_token();
+                    self.parse_cypher_match().map(Statement::Cypher)
+                }
                 Keyword::TRUNCATE => self.parse_truncate(),
                 Keyword::ATTACH => {
                     if dialect_of!(self is DuckDbDialect) {
@@ -1348,6 +1352,33 @@ impl<'a> Parser<'a> {
         } else {
             self.expected("KEYWORD `TABLE` after RENAME", self.peek_token())
         }
+    }
+
+    /// added by ajw4987
+    fn parse_cypher_match(&mut self) -> Result<CypherMatch, ParserError> {
+        // MATCH
+        self.parse_keyword(Keyword::MATCH)?;
+        // READ EVERYTHING UP TO RETURN
+        let mut pattern = String::new();
+        while !self.consume_keyword(Keyword::RETURN) {
+            pattern.push_str(&self.next_token().to_string());
+            pattern.push(' ');
+        }
+        pattern = pattern.trim().to_string();
+
+        /// collect projection identifiers until end of statement
+        let mut projections = Vec::new();
+        loop {
+            match self.next_token().token {
+                Token::Word(w) => projections.push(w.value), 
+                Toke::EOF | Token::SemiColon => break,
+                _ => {},
+            }
+        }
+        Ok(CypherMatch {
+            pattern,
+            projections
+        })
     }
 
     /// Tries to parse an expression by matching the specified word to known keywords that have a special meaning in the dialect.
