@@ -3154,10 +3154,13 @@ impl fmt::Display for Analyze {
     derive(Visit, VisitMut),
     visit(with = "visit_statement")
 )]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "visitor", derive(Visit, VisitMut))]
 pub struct CypherMatch {
     pub pattern: String,
     pub projections: Vec<String>,
 }
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum Statement {
     /// ```sql
