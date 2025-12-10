@@ -9,6 +9,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 //! SQL Parser
 
 #[cfg(not(feature = "std"))]
@@ -37,7 +38,6 @@ use crate::ast::helpers::{
     },
     stmt_create_table::{CreateTableBuilder, CreateTableConfiguration},
 };
-use crate::ast::CypherMatch;
 use crate::ast::Statement::CreatePolicy;
 use crate::ast::*;
 use crate::dialect::*;
@@ -567,10 +567,6 @@ impl<'a> Parser<'a> {
                 Keyword::SELECT | Keyword::WITH | Keyword::VALUES | Keyword::FROM => {
                     self.prev_token();
                     self.parse_query().map(Statement::Query)
-                }
-                Keyword::MATCH => {
-                    self.prev_token();
-                    self.parse_cypher_match().map(Statement::Cypher)
                 }
                 Keyword::TRUNCATE => self.parse_truncate(),
                 Keyword::ATTACH => {
@@ -1520,41 +1516,6 @@ impl<'a> Parser<'a> {
             }
             _ => Ok(Expr::Identifier(w.clone().into_ident(w_span))),
         }
-    }
-
-    // added by ajw4987
-    fn parse_cypher_match(&mut self) -> Result<CypherMatch, ParserError> {
-        // MATCH
-        self.expect_keyword(Keyword::MATCH)?;
-        //let ok: bool = self.parse_keyword(...);
-        // READ EVERYTHING UP TO RETURN
-        let mut pattern = String::new();
-        while !self.parse_keyword(Keyword::RETURN) {
-            let tok = self.next_token().to_string();
-            if tok == "(" || tok == ")" {
-                pattern.push_str(&tok);
-            } else {
-                if !pattern.is_empty() && !pattern.ends_with('(') {
-                    pattern.push(' ');
-                }
-                pattern.push_str(&tok);
-            }
-        }
-        pattern = pattern.trim().to_string();
-
-        // collect projection identifiers until end of statement
-        let mut projections = Vec::new();
-        loop {
-            match self.next_token().token {
-                Token::Word(w) => projections.push(w.value),
-                Token::EOF | Token::SemiColon => break,
-                _ => {}
-            }
-        }
-        Ok(CypherMatch {
-            pattern,
-            projections,
-        })
     }
 
     /// Parse an expression prefix.

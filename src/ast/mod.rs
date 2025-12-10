@@ -36,11 +36,11 @@ use core::{
     hash,
 };
 
-#[cfg(feature = "visitor")]
-pub use visitor::*;
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "visitor")]
-pub use crate::ast::visitor::{Visit, VisitMut};
+use sqlparser_derive::{Visit, VisitMut};
 
 use crate::{
     display_utils::SpaceOrNewline,
@@ -109,9 +109,10 @@ pub use self::value::{
 use crate::ast::helpers::key_value_options::KeyValueOptions;
 use crate::ast::helpers::stmt_data_loading::StageParamsObject;
 
+#[cfg(feature = "visitor")]
+pub use visitor::*;
+
 pub use self::data_type::GeometricTypeKind;
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
 
 mod data_type;
 mod dcl;
@@ -3153,11 +3154,6 @@ impl fmt::Display for Analyze {
     derive(Visit, VisitMut),
     visit(with = "visit_statement")
 )]
-pub struct CypherMatch {
-    pub pattern: String,
-    pub projections: Vec<String>,
-}
-#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum Statement {
     /// ```sql
     /// ANALYZE
@@ -3179,10 +3175,6 @@ pub enum Statement {
     /// SELECT
     /// ```
     Query(Box<Query>),
-    /// ```sql
-    /// MATCH ... RETURN
-    /// ```
-    Cypher(CypherMatch),
     /// ```sql
     /// INSERT
     /// ```
@@ -4550,11 +4542,6 @@ impl fmt::Display for Statement {
             }
             Statement::Analyze(analyze) => analyze.fmt(f),
             Statement::Insert(insert) => insert.fmt(f),
-            // Cypher MATCH ... RETURN ...
-            Statement::Cypher(c) => {
-                write!(f, "MATCH {} RETURN {}", c.pattern, c.projections.join(", "))
-            }
-
             Statement::Install {
                 extension_name: name,
             } => write!(f, "INSTALL {name}"),
