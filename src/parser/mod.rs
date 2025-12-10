@@ -1355,34 +1355,6 @@ impl<'a> Parser<'a> {
         }
     }
 
-    /// added by ajw4987
-    fn parse_cypher_match(&mut self) -> Result<CypherMatch, ParserError> {
-        // MATCH
-        self.expect_keyword(Keyword::MATCH)?;
-        //let ok: bool = self.parse_keyword(...);
-        // READ EVERYTHING UP TO RETURN
-        let mut pattern = String::new();
-        while !self.parse_keyword(Keyword::RETURN) {
-            pattern.push_str(&self.next_token().to_string());
-            pattern.push(' ');
-        }
-        pattern = pattern.trim().to_string();
-
-        // collect projection identifiers until end of statement
-        let mut projections = Vec::new();
-        loop {
-            match self.next_token().token {
-                Token::Word(w) => projections.push(w.value),
-                Token::EOF | Token::SemiColon => break,
-                _ => {}
-            }
-        }
-        Ok(CypherMatch {
-            pattern,
-            projections,
-        })
-    }
-
     /// Tries to parse an expression by matching the specified word to known keywords that have a special meaning in the dialect.
     /// Returns `None if no match is found.
     fn parse_expr_prefix_by_reserved_word(
@@ -1549,6 +1521,41 @@ impl<'a> Parser<'a> {
             }
             _ => Ok(Expr::Identifier(w.clone().into_ident(w_span))),
         }
+    }
+
+    // added by ajw4987
+    fn parse_cypher_match(&mut self) -> Result<CypherMatch, ParserError> {
+        // MATCH
+        self.expect_keyword(Keyword::MATCH)?;
+        //let ok: bool = self.parse_keyword(...);
+        // READ EVERYTHING UP TO RETURN
+        let mut pattern = String::new();
+        while !self.parse_keyword(Keyword::RETURN) {
+            let tok = self.next_token().to_string();if tok == "(" || tok == ")" {
+                pattern.push_str(&tok);
+            } else {
+                if !pattern.is_empty() && !pattern.ends_with('('){
+                    pattern.push(' ');
+                }
+                pattern.push_str(&tok);
+            
+            }
+        }
+        pattern = pattern.trim().to_string();
+
+        // collect projection identifiers until end of statement
+        let mut projections = Vec::new();
+        loop {
+            match self.next_token().token {
+                Token::Word(w) => projections.push(w.value),
+                Token::EOF | Token::SemiColon => break,
+                _ => {}
+            }
+        }
+        Ok(CypherMatch {
+            pattern,
+            projections,
+        })
     }
 
     /// Parse an expression prefix.
