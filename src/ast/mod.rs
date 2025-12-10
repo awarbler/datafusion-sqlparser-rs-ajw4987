@@ -3144,7 +3144,10 @@ impl fmt::Display for Analyze {
         Ok(())
     }
 }
-
+pub struct CypherMatch {
+    pub pattern: String,
+    pub projections: Vec<String>,
+}
 /// A top-level statement (SELECT, INSERT, CREATE, etc.)
 #[allow(clippy::large_enum_variant)]
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
@@ -3154,6 +3157,7 @@ impl fmt::Display for Analyze {
     derive(Visit, VisitMut),
     visit(with = "visit_statement")
 )]
+
 pub enum Statement {
     /// ```sql
     /// ANALYZE
@@ -11075,8 +11079,5 @@ mod tests {
         assert!(a < b);
     }
 
-    pub struct CypherMatch {
-        pub pattern: String,
-        pub projections: Vec<String>,
-    }
+
 }
