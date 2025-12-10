@@ -110,13 +110,13 @@ use crate::ast::helpers::key_value_options::KeyValueOptions;
 use crate::ast::helpers::stmt_data_loading::StageParamsObject;
 
 #[cfg(feature = "visitor")]
-pub use visitor::*;
-#[cfg(feature = "visitor")]
 use crate::ast::visitor::{Visit, VisitMut};
+#[cfg(feature = "visitor")]
+pub use visitor::*;
 
-#[cfg(feature = "serde")]
-use serde::{Serialize, Deserialize};
 pub use self::data_type::GeometricTypeKind;
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 
 mod data_type;
 mod dcl;
