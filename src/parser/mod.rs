@@ -1531,14 +1531,14 @@ impl<'a> Parser<'a> {
         // READ EVERYTHING UP TO RETURN
         let mut pattern = String::new();
         while !self.parse_keyword(Keyword::RETURN) {
-            let tok = self.next_token().to_string();if tok == "(" || tok == ")" {
+            let tok = self.next_token().to_string();
+            if tok == "(" || tok == ")" {
                 pattern.push_str(&tok);
             } else {
-                if !pattern.is_empty() && !pattern.ends_with('('){
+                if !pattern.is_empty() && !pattern.ends_with('(') {
                     pattern.push(' ');
                 }
                 pattern.push_str(&tok);
-            
             }
         }
         pattern = pattern.trim().to_string();
