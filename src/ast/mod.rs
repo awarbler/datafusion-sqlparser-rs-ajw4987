@@ -42,7 +42,6 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "visitor")]
 use sqlparser_derive::{Visit, VisitMut};
 
-pub use self::cypher::CypherMatch;
 pub use self::data_type::{
     ArrayElemTypeDef, BinaryLength, CharLengthUnits, CharacterLength, DataType, EnumMember,
     ExactNumberInfo, IntervalFields, StructBracketKind, TimezoneInfo,
@@ -3144,10 +3143,7 @@ impl fmt::Display for Analyze {
         Ok(())
     }
 }
-pub struct CypherMatch {
-    pub pattern: String,
-    pub projections: Vec<String>,
-}
+
 /// A top-level statement (SELECT, INSERT, CREATE, etc.)
 #[allow(clippy::large_enum_variant)]
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
@@ -3157,7 +3153,10 @@ pub struct CypherMatch {
     derive(Visit, VisitMut),
     visit(with = "visit_statement")
 )]
-
+pub struct CypherMatch {
+    pub pattern: String,
+    pub projections: Vec<String>,
+}
 pub enum Statement {
     /// ```sql
     /// ANALYZE
