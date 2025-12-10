@@ -42,14 +42,6 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "visitor")]
 use sqlparser_derive::{Visit, VisitMut};
 
-use crate::{
-    display_utils::SpaceOrNewline,
-    tokenizer::{Span, Token},
-};
-use crate::{
-    display_utils::{Indent, NewLine},
-    keywords::Keyword,
-};
 pub use self::cypher::CypherMatch;
 pub use self::data_type::{
     ArrayElemTypeDef, BinaryLength, CharLengthUnits, CharacterLength, DataType, EnumMember,
@@ -94,6 +86,14 @@ pub use self::query::{
     TableSampleUnit, TableVersion, TableWithJoins, Top, TopQuantity, UpdateTableFromKind,
     ValueTableMode, Values, WildcardAdditionalOptions, With, WithFill, XmlNamespaceDefinition,
     XmlPassingArgument, XmlPassingClause, XmlTableColumn, XmlTableColumnOption,
+};
+use crate::{
+    display_utils::SpaceOrNewline,
+    tokenizer::{Span, Token},
+};
+use crate::{
+    display_utils::{Indent, NewLine},
+    keywords::Keyword,
 };
 
 pub use self::trigger::{
@@ -11078,6 +11078,4 @@ mod tests {
         std::mem::swap(&mut a.span, &mut b.span);
         assert!(a < b);
     }
-
-
 }

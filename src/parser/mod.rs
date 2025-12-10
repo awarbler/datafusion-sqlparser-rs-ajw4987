@@ -38,13 +38,13 @@ use crate::ast::helpers::{
     },
     stmt_create_table::{CreateTableBuilder, CreateTableConfiguration},
 };
+use crate::ast::CypherMatch;
 use crate::ast::Statement::CreatePolicy;
 use crate::ast::*;
 use crate::dialect::*;
 use crate::keywords::{Keyword, ALL_KEYWORDS};
 use crate::tokenizer::*;
 use sqlparser::parser::ParserState::ColumnDefinition;
-use crate::ast::CypherMatch;
 
 mod alter;
 
