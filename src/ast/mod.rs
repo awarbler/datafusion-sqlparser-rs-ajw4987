@@ -111,7 +111,11 @@ use crate::ast::helpers::stmt_data_loading::StageParamsObject;
 
 #[cfg(feature = "visitor")]
 pub use visitor::*;
+#[cfg(feature = "visitor")]
+use crate::ast::visitor::{Visit, VisitMut};
 
+#[cfg(feature = "serde")]
+use serde::{Serialize, Deserialize};
 pub use self::data_type::GeometricTypeKind;
 
 mod data_type;
