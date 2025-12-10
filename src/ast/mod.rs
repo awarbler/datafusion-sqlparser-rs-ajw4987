@@ -3179,7 +3179,7 @@ pub enum Statement {
     /// INSERT
     /// ```
     /// Cypher MATCH ... RETURN ...
-    Cypher(CypherMatch)
+    Cypher(CypherMatch),
     
     Insert(Insert),
     /// ```sql
