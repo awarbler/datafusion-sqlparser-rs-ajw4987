@@ -568,7 +568,7 @@ impl<'a> Parser<'a> {
                     self.prev_token();
                     self.parse_query().map(Statement::Query)
                 }
-                Keyword:: MATCH => {
+                Keyword::MATCH => {
                     self.prev_token();
                     self.parse_cypher_match().map(Statement::Cypher)
                 }
@@ -1370,14 +1370,14 @@ impl<'a> Parser<'a> {
         let mut projections = Vec::new();
         loop {
             match self.next_token().token {
-                Token::Word(w) => projections.push(w.value), 
+                Token::Word(w) => projections.push(w.value),
                 Toke::EOF | Token::SemiColon => break,
-                _ => {},
+                _ => {}
             }
         }
         Ok(CypherMatch {
             pattern,
-            projections
+            projections,
         })
     }
 

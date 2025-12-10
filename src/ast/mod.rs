@@ -3180,7 +3180,7 @@ pub enum Statement {
     /// ```
     /// Cypher MATCH ... RETURN ...
     Cypher(CypherMatch),
-    
+
     Insert(Insert),
     /// ```sql
     /// INSTALL
@@ -11076,8 +11076,7 @@ mod tests {
     }
 
     pub struct CypherMatch {
-        pub pattern: String, 
+        pub pattern: String,
         pub projections: Vec<String>,
-        }
-    
+    }
 }
