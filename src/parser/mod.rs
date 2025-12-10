@@ -44,7 +44,7 @@ use crate::dialect::*;
 use crate::keywords::{Keyword, ALL_KEYWORDS};
 use crate::tokenizer::*;
 use sqlparser::parser::ParserState::ColumnDefinition;
-pub use self::cypher::CypherMatch;
+use crate::ast::CypherMatch;
 
 mod alter;
 

@@ -50,7 +50,7 @@ use crate::{
     display_utils::{Indent, NewLine},
     keywords::Keyword,
 };
-
+pub use self::cypher::CypherMatch;
 pub use self::data_type::{
     ArrayElemTypeDef, BinaryLength, CharLengthUnits, CharacterLength, DataType, EnumMember,
     ExactNumberInfo, IntervalFields, StructBracketKind, TimezoneInfo,
