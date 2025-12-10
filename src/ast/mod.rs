@@ -3157,7 +3157,6 @@ pub struct CypherMatch {
     pub pattern: String,
     pub projections: Vec<String>,
 }
-#[cfg_attr(feature = "visitor", derive(Visit, VisitMut))]
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum Statement {
     /// ```sql
