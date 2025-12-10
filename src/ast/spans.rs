@@ -298,6 +298,7 @@ impl Spanned for Values {
 impl Spanned for Statement {
     fn span(&self) -> Span {
         match self {
+            Statement::Cypher(_) => Span::empty(),
             Statement::Analyze(analyze) => analyze.span(),
             Statement::Truncate(truncate) => truncate.span(),
             Statement::Msck(msck) => msck.span(),

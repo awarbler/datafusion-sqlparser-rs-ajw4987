@@ -1368,7 +1368,7 @@ impl<'a> Parser<'a> {
         }
         pattern = pattern.trim().to_string();
 
-        /// collect projection identifiers until end of statement
+        // collect projection identifiers until end of statement
         let mut projections = Vec::new();
         loop {
             match self.next_token().token {

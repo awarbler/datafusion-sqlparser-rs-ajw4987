@@ -3158,6 +3158,7 @@ pub struct CypherMatch {
     pub pattern: String,
     pub projections: Vec<String>,
 }
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum Statement {
     /// ```sql
     /// ANALYZE
@@ -3180,7 +3181,7 @@ pub enum Statement {
     /// ```
     Query(Box<Query>),
     /// ```sql
-    /// INSERT
+    /// MATCH ... RETURN
     /// ```
     Cypher(CypherMatch),
     /// ```sql
@@ -4550,6 +4551,11 @@ impl fmt::Display for Statement {
             }
             Statement::Analyze(analyze) => analyze.fmt(f),
             Statement::Insert(insert) => insert.fmt(f),
+            // Cypher MATCH ... RETURN ...
+            Statement::Cypher(c) => {
+                write!(f, "MATCH {} RETURN {}", c.pattern, c.projections.join(", "))
+            }
+
             Statement::Install {
                 extension_name: name,
             } => write!(f, "INSTALL {name}"),
@@ -11078,12 +11084,5 @@ mod tests {
         assert!(a < b);
         std::mem::swap(&mut a.span, &mut b.span);
         assert!(a < b);
-    }
-
-    pub struct CypherMatch {
-        pub struct CypherMatch {
-            pub pattern: String, 
-            pub projections: Vec<String>,
-        }
     }
 }
